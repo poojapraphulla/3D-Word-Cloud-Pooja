@@ -38,10 +38,36 @@ def extract_keywords(text: str, top_k: int = 30) -> List[Dict[str, float]]:
     scores = tfidf_matrix.toarray()[0]
     words = vectorizer.get_feature_names_out()
 
+    CUSTOM_STOP_WORDS = {
+        # Reporting verbs
+        "said", "says", "told", "asked", "added", "adding",
+        "stated", "states", "according", "explained", "noted",
+        "announced",
+
+        # News meta
+        "news", "report", "reports", "reported", "reporting",
+        "article", "story", "stories", "media", "press",
+
+        # Attribution nouns
+        "official", "officials", "spokesman", "spokeswoman",
+        "source", "sources", "authorities",
+
+        # Time / framing
+        "today", "yesterday", "tomorrow",
+        "earlier", "later", "recent", "recently",
+        "currently", "previously",
+
+        # Generic fillers
+        "people", "person", "group", "groups",
+        "country", "countries",
+        "government", "governments",
+        "company", "companies"
+    }
+
     keywords = [
         {"word": word, "weight": float(score)}
         for word, score in zip(words, scores)
-        if score > 0
+        if score > 0 and word not in CUSTOM_STOP_WORDS
     ]
 
     # Sort keywords by descending importance
