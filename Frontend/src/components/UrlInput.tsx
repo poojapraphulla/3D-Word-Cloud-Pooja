@@ -1,63 +1,80 @@
 import { motion } from "framer-motion";
+import React from "react";
 import { sampleUrls } from "../data/sampleUrls";
 
 interface UrlInputProps {
   url: string;
-  setUrl: (url: string) => void;
+  setUrl: React.Dispatch<React.SetStateAction<string>>;
+  onSubmit: () => void;
+  loading: boolean;
+  error: string | null;
 }
 
-export default function UrlInput({ url, setUrl }: UrlInputProps) {
+const UrlInput: React.FC<UrlInputProps> = ({
+  url,
+  setUrl,
+  onSubmit,
+  loading,
+  error,
+}) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      style={{
-        position: "absolute",
-        top: 30,
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: "60%",
-        maxWidth: 800,
-        zIndex: 10
-      }}
-    >
-      <input
+    <div className="url-input-wrapper">
+      {/* Input Field */}
+      <motion.input
+        className="url-input"
+        type="text"
         value={url}
-        onChange={(e) => setUrl(e.target.value)}
         placeholder="Enter a news article URL..."
-        style={{
-          width: "100%",
-          padding: "14px 18px",
-          borderRadius: 12,
-          border: "none",
-          fontSize: 16,
-          outline: "none",
-          background: "#020617",
-          color: "white",
-          boxShadow: "0 0 0 1px #1e293b"
+        disabled={loading}
+        onChange={(e) => setUrl(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") onSubmit();
         }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
       />
 
-      <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
-        {sampleUrls.map((sample, idx) => (
-          <button
-            key={idx}
+      {/* Sample URL Buttons */}
+      <div className="sample-buttons">
+        {sampleUrls.map((sample, index) => (
+          <motion.button
+            key={index}
+            type="button"
+            className="sample-btn"
+            disabled={loading}
             onClick={() => setUrl(sample)}
-            style={{
-              padding: "6px 10px",
-              fontSize: 12,
-              borderRadius: 8,
-              border: "none",
-              cursor: "pointer",
-              background: "#1e293b",
-              color: "#cbd5f5"
-            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Sample {idx + 1}
-          </button>
+            Sample {index + 1}
+          </motion.button>
         ))}
       </div>
-    </motion.div>
+
+      {/* Analyze Button */}
+      <motion.button
+        className="analyze-btn"
+        onClick={onSubmit}
+        disabled={loading}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {loading ? "Analyzing..." : "Analyze"}
+      </motion.button>
+
+      {/* Error Message */}
+      {error && (
+        <motion.p
+          className="error-text"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          {error}
+        </motion.p>
+      )}
+    </div>
   );
-}
+};
+
+export default UrlInput;
