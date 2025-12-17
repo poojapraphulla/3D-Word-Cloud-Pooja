@@ -1,0 +1,31 @@
+{
+  "name": "3d-word-cloud-pooja",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "install:backend": "cd Backend && python -m venv venv && venv\\Scripts\\pip install -r requirements.txt",
+    "install:frontend": "cd Frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+
+    "start:backend": "cd Backend && venv\\Scripts\\python -m uvicorn app.main:app --reload",
+    "start:frontend": "cd Frontend && npm run dev",
+
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojapraphulla/3D-Word-Cloud-Pooja.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/poojapraphulla/3D-Word-Cloud-Pooja/issues"
+  },
+  "homepage": "https://github.com/poojapraphulla/3D-Word-Cloud-Pooja#readme",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
