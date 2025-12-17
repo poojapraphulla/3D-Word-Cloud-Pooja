@@ -18,61 +18,63 @@ const UrlInput: React.FC<UrlInputProps> = ({
   error,
 }) => {
   return (
-    <div className="url-input-wrapper">
-      {/* Input Field */}
-      <motion.input
-        className="url-input"
-        type="text"
-        value={url}
-        placeholder="Enter a news article URL..."
-        disabled={loading}
-        onChange={(e) => setUrl(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") onSubmit();
-        }}
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      />
+    <div className="ui-overlay">
+      <motion.div 
+        className="glass-panel"
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <motion.input
+          className="url-input"
+          type="text"
+          value={url}
+          placeholder="Paste article URL here..."
+          disabled={loading}
+          onChange={(e) => setUrl(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onSubmit();
+          }}
+        />
 
-      {/* Sample URL Buttons */}
-      <div className="sample-buttons">
+      {/* Sample URL "Data Chips" */}
+      <div className="sample-grid">
         {sampleUrls.map((sample, index) => (
           <motion.button
             key={index}
             type="button"
-            className="sample-btn"
+            className="sample-card" // CHANGED: New class name
             disabled={loading}
-            onClick={() => setUrl(sample)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            onClick={() => setUrl(sample.url)}
+            whileHover={{ scale: 1.02 }} // Subtle scale
+            whileTap={{ scale: 0.98 }}
           >
-            Sample {index + 1}
+            {/* We added a span for specific text styling */}
+            <span className="sample-text">{sample.label}</span>
           </motion.button>
         ))}
       </div>
 
-      {/* Analyze Button */}
-      <motion.button
-        className="analyze-btn"
-        onClick={onSubmit}
-        disabled={loading}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {loading ? "Analyzing..." : "Analyze"}
-      </motion.button>
-
-      {/* Error Message */}
-      {error && (
-        <motion.p
-          className="error-text"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <motion.button
+          className="analyze-btn"
+          onClick={onSubmit}
+          disabled={loading}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          {error}
-        </motion.p>
-      )}
+          {loading ? "Analyzing Context..." : "Generate Cloud"}
+        </motion.button>
+
+        {error && (
+          <motion.p
+            className="error-text"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            Error: {error}
+          </motion.p>
+        )}
+      </motion.div>
     </div>
   );
 };

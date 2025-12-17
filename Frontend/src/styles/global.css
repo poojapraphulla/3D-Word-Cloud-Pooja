@@ -1,3 +1,11 @@
+:root {
+  --primary: #00f2ff;
+  --secondary: #7000ff;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-main: #ffffff;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,8 +13,166 @@
 }
 
 body {
-  font-family: Inter, system-ui, sans-serif;
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: white;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #050505;
+  color: var(--text-main);
   overflow: hidden;
+}
+
+/* UI Overlay Container */
+.ui-overlay {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Glassmorphism Card */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.3s ease;
+}
+
+/* Inputs */
+.url-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.url-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+}
+
+/* Buttons */
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.sample-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #aaa;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sample-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.analyze-btn {
+  margin-top: 1rem;
+  width: 100%;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.analyze-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-text {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.sample-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.sample-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px; 
+  padding: 12px 10px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sample-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #00f2ff; 
+  opacity: 0.3;
+  transition: all 0.3s;
+}
+
+.sample-card:hover {
+  background: rgba(0, 242, 255, 0.1); 
+  border-color: #00f2ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 242, 255, 0.15);
+}
+
+.sample-card:hover::before {
+  opacity: 1; 
+  width: 100%; 
+  width: 4px;
+}
+
+.sample-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  color: #aaa;
+  transition: color 0.3s;
+  z-index: 2;
+}
+
+.sample-card:hover .sample-text {
+  color: #fff;
 }

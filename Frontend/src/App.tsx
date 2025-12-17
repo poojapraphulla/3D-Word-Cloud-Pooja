@@ -18,7 +18,6 @@ function App() {
 
     try {
       const result = await analyzeArticle(url);
-      console.log("Keywords from backend:", result);
       setKeywords(result);
     } catch (err) {
       if (err instanceof Error) setError(err.message);
@@ -29,7 +28,9 @@ function App() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100vw" }}>
+    <div style={{ position: 'relative', height: "100vh", width: "100vw", background: '#050505' }}>
+      
+      {/* 1. UI Layer */}
       <UrlInput
         url={url}
         setUrl={setUrl}
@@ -37,7 +38,10 @@ function App() {
         loading={loading}
         error={error}
       />
-      <Scene/>
+
+      {/* 2. 3D Scene Layer */}
+      <Scene keywords={keywords} />
+      
     </div>
   );
 }
